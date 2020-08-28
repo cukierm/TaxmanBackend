@@ -5,7 +5,21 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/userRouter');
+
+const mongoose = require('mongoose');
+
+const url = 'mongodb://localhost:27017/taxman';
+const connect = mongoose.connect(url, {
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+connect.then(() => console.log('We have liftoff!'),
+err => console.log(err)
+);
 
 var app = express();
 
