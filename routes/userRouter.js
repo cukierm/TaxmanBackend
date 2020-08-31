@@ -6,6 +6,18 @@ const userRouter = express.Router();
 
 userRouter.use(bodyParser.json());
 
+userRouter.route('/getuser/:name')
+.get((req, res, next) => {
+  console.log(req.params.name);
+  User.findOne({name: req.params.name})
+  .then (user => {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", 'application/json');
+    res.json(user);
+  })
+  .catch(err => next(err));
+}) 
+
 userRouter.route('/')
 .get((req, res, next) => {
   User.find()
@@ -112,6 +124,7 @@ userRouter.route('/:userId/highScore20')
 
 userRouter.route('/:userId/highScore50')
 .get((req, res, next) => {
+  console.log('the id route')
   User.findById(req.params.userId)
   .then (user => {
     res.statusCode = 200;
@@ -135,6 +148,9 @@ userRouter.route('/:userId/highScore50')
   })
   .catch (err => next(err));
 });
+
+
+
 
 
 module.exports = userRouter;
